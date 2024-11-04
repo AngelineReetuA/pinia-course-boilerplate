@@ -2,28 +2,37 @@
 // imports
 import { ref } from "vue";
 import AppCountInput from "./AppCountInput.vue";
+import { useCartStore } from "@/stores/CartStore";
+
+const cartStore = useCartStore();
 
 // props
 const props = defineProps({
   product: Object,
 });
 
-// emits
-defineEmits(["addToCart"])
-
 // data
 const count = ref(0);
+
+function addToCart(prodName, price, countP) {
+  count.value = 0;
+  cartStore.addToCart({ name: prodName, price: price, count: countP });
+}
 </script>
 <template>
-  <li class="card">
+  <li class="card" :key="product">
     <img :src="`/images/${product.image}`" class="mb-3" width="300" />
     <div>
-      {{ product.name }} - <span class="text-green-500">${{product.price}}</span>
+      {{ product.name }} -
+      <span class="text-green-500">${{ product.price }}</span>
       <div class="text-center m-4">
         <AppCountInput v-model="count" />
       </div>
       <AppButton
-        class="primary" @click="$emit('addToCart', count), (count = 0)">Add to Cart</AppButton>
+        class="primary"
+        @click="addToCart(product.name, product.price, count)"
+        >Add to Cart</AppButton
+      >
     </div>
   </li>
 </template>
