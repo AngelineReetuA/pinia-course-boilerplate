@@ -1,4 +1,7 @@
 <script setup>
+import { useCartStore } from "@/stores/CartStore";
+const cartStore = useCartStore();
+
 defineProps({
   product: { type: Object, required: true },
   count: { type: Number, required: true },
@@ -17,7 +20,7 @@ defineEmits(["updateCount", "clear"]);
       <span class="inline-block w-12 text-right"
         >${{ count * product.price }}</span
       >
-      <span class="ml-4" @click="$emit('clear')">
+      <span class="ml-4" @click="cartStore.deleteFromCart(product)">
         <fa icon="trash-alt" />
       </span>
     </span>
