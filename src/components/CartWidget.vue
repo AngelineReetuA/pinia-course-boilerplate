@@ -22,7 +22,7 @@ const active = ref(false);
         <div v-if="cartStore.cart.length === 0">Cart is empty</div>
         <ul class="items-in-cart" v-for="prod in cartStore.cart">
           <CartItem
-            :product="{ name: prod.name, price: prod.price }"
+            :product="{ name: prod.name, price: prod.price, id: prod.id }"
             :count="prod.count"
             @updateCount=""
             @clear=""

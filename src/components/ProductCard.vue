@@ -14,9 +14,14 @@ const props = defineProps({
 // data
 const count = ref(0);
 
-function addToCart(prodName, price, countP) {
+function addToCart(prodName, price, countP, id) {
   count.value = 0;
-  cartStore.addToCart({ name: prodName, price: price, count: countP });
+  cartStore.addToCart({
+    id: id,
+    name: prodName,
+    price: price,
+    count: countP,
+  });
 }
 </script>
 <template>
@@ -30,7 +35,7 @@ function addToCart(prodName, price, countP) {
       </div>
       <AppButton
         class="primary"
-        @click="addToCart(product.name, product.price, count)"
+        @click="addToCart(product.name, product.price, count, product.id)"
         >Add to Cart</AppButton
       >
     </div>

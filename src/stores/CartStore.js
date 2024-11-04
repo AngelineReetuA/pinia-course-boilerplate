@@ -15,8 +15,14 @@ export const useCartStore = defineStore("CartStore", {
       this.cartTotal += prod.price * prod.count;
     },
     deleteFromCart(prod) {
-      const index = this.cart.indexOf(prod);
+      console.log("prod", prod);
+      const index = this.cart.find((item) => {
+        return item.id === prod.id;
+      });
+      console.log("obj", index);
       this.cart.splice(index, 1);
+      const minus = index.price * index.count;
+      this.cartTotal -= minus;
     },
   },
 });
