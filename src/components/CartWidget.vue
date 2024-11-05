@@ -32,8 +32,15 @@ const active = ref(false);
           Total: <strong> {{ cartStore.cartTotal }}</strong>
         </div>
         <div class="flex justify-end">
-          <AppButton class="secondary mr-2">Clear Cart</AppButton>
-          <AppButton class="primary">Checkout</AppButton>
+          <AppButton
+            class="secondary mr-2"
+            v-if="cartStore.items !== 0"
+            @click="cartStore.clearCart()"
+            >Clear Cart</AppButton
+          >
+          <AppButton v-if="cartStore.items !== 0" class="primary"
+            >Checkout</AppButton
+          >
         </div>
       </div>
       <!-- Uncomment and use condition to show when cart is empty -->

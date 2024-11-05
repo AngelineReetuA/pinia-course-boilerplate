@@ -10,19 +10,36 @@ export const useCartStore = defineStore("CartStore", {
   },
   actions: {
     addToCart(prod) {
+      const alreadyExists = this.cart.some((element) => element.id === prod.id);
+      if (alreadyExists) {
+        this.updateToCart(prod);
+        return;
+      }
       this.cart.push(prod);
       this.items += prod.count;
       this.cartTotal += prod.price * prod.count;
     },
-    deleteFromCart(prod) {
-      console.log("prod", prod);
-      const index = this.cart.find((item) => {
+    updateToCart(prod) {
+      const item = this.cart.find((item) => {
         return item.id === prod.id;
       });
-      console.log("obj", index);
-      this.cart.splice(index, 1);
-      const minus = index.price * index.count;
-      this.cartTotal -= minus;
+      const index = this.cart.indexOf(item);
+      this.cart[index].count += prod.count;
+      this.cartTotal += prod.price * prod.count;
+      this.items += prod.count;
+    },
+    deleteFromCart(prod) {
+      const item = this.cart.find((item) => {
+        return item.id === prod.id;
+      });
+      this.items -= item.count;
+      this.cartTotal -= item.price * item.count;
+      this.cart.splice(this.cart.indexOf(item), 1);
+    },
+    clearCart() {
+      this.cart = [];
+      this.items = 0;
+      this.cartTotal = 0;
     },
   },
 });
