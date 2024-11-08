@@ -3,6 +3,7 @@
 import { ref } from "vue";
 import CartItem from "./CartItem.vue";
 import { useCartStore } from "@/stores/CartStore";
+import Swal from "sweetalert2";
 
 const cartStore = useCartStore();
 
@@ -17,6 +18,17 @@ function updateCountOnProd(event, prod) {
     count: event,
   });
 }
+
+function checkoutFunc() {
+  Swal.fire({
+    position: "center",
+    icon: "success",
+    title: "Checked out!",
+    showConfirmButton: false,
+    timer: 1500,
+  });
+  cartStore.clearCart();
+}
 </script>
 <template>
   <div class="relative">
@@ -26,7 +38,9 @@ function updateCountOnProd(event, prod) {
     </span>
     <AppModalOverlay :active="active" @close="active = false">
       <div>
-        <div v-if="cartStore.cart.length === 0">Cart is empty</div>
+        <div v-if="cartStore.cart.length === 0">
+          Your cart is so light! Go shop more!
+        </div>
         <ul class="items-in-cart" v-for="prod in cartStore.cart">
           <CartItem
             :product="{ name: prod.name, price: prod.price, id: prod.id }"
@@ -44,7 +58,10 @@ function updateCountOnProd(event, prod) {
             @click="cartStore.clearCart()"
             >Clear Cart</AppButton
           >
-          <AppButton v-if="cartStore.items !== 0" class="primary"
+          <AppButton
+            v-if="cartStore.items !== 0"
+            class="primary"
+            @click="checkoutFunc"
             >Checkout</AppButton
           >
         </div>

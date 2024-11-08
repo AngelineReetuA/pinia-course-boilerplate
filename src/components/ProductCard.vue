@@ -3,6 +3,7 @@
 import { ref } from "vue";
 import AppCountInput from "./AppCountInput.vue";
 import { useCartStore } from "@/stores/CartStore";
+import Swal from "sweetalert2";
 
 const cartStore = useCartStore();
 
@@ -21,6 +22,13 @@ function addToCart(prodName, price, countP, id) {
     name: prodName,
     price: price,
     count: countP,
+  });
+  Swal.fire({
+    position: "center",
+    width: 300,
+    title: "Item added",
+    showConfirmButton: false,
+    timer: 500,
   });
 }
 </script>
