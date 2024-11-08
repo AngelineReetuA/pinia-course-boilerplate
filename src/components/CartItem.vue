@@ -11,14 +11,15 @@ defineEmits(["updateCount", "clear"]);
 </script>
 <template>
   <li>
-    <span>{{ product.name }}</span>
+    <span>{{ product.name }} - Rs {{ product.price }}</span>
     <span class="whitespace-nowrap">
       <AppCountInput
         :model-value="count"
-        @update:modelValue="$emit('updateCount', $event)"
+        @update:modelValue="$emit('updateCount', $event, product)"
+        :count="count"
       />
       <span class="inline-block w-12 text-right"
-        >${{ count * product.price }}</span
+        >Rs {{ count * product.price }}</span
       >
       <span class="ml-4" @click="cartStore.deleteFromCart(product)">
         <fa icon="trash-alt" />

@@ -29,7 +29,7 @@ function addToCart(prodName, price, countP, id) {
     <img :src="`/images/${product.image}`" class="mb-3" width="300" />
     <div>
       {{ product.name }} -
-      <span class="text-green-500">${{ product.price }}</span>
+      <span class="text-green-500">Rs {{ product.price }} /-</span>
       <div class="text-center m-4">
         <AppCountInput v-model="count" />
       </div>

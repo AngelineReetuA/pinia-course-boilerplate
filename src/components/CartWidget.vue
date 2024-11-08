@@ -8,15 +8,22 @@ const cartStore = useCartStore();
 
 // data
 const active = ref(false);
+
+function updateCountOnProd(event, prod) {
+  cartStore.updateStraightFromCart({
+    id: prod.id,
+    name: prod.name,
+    price: prod.price,
+    count: event,
+  });
+}
 </script>
 <template>
   <div class="relative">
-    <!-- Icon that always shows -->
     <span class="cursor-pointer" @click="active = true">
       <fa icon="shopping-cart" size="lg" class="text-gray-700" />
       <div class="cart-count absolute">{{ cartStore.items }}</div>
     </span>
-    <!-- Modal Overlay only shows when cart is clicked on -->
     <AppModalOverlay :active="active" @close="active = false">
       <div>
         <div v-if="cartStore.cart.length === 0">Cart is empty</div>
@@ -24,12 +31,11 @@ const active = ref(false);
           <CartItem
             :product="{ name: prod.name, price: prod.price, id: prod.id }"
             :count="prod.count"
-            @updateCount=""
-            @clear=""
+            @updateCount="updateCountOnProd"
           />
         </ul>
         <div class="flex justify-end text-2xl mb-5">
-          Total: <strong> {{ cartStore.cartTotal }}</strong>
+          Total: <strong>Rs.{{ cartStore.cartTotal }}/-</strong>
         </div>
         <div class="flex justify-end">
           <AppButton
@@ -43,8 +49,6 @@ const active = ref(false);
           >
         </div>
       </div>
-      <!-- Uncomment and use condition to show when cart is empty -->
-      <!-- <div><em>Cart is Empty</em></div> -->
     </AppModalOverlay>
   </div>
 </template>

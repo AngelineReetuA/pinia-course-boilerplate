@@ -28,6 +28,16 @@ export const useCartStore = defineStore("CartStore", {
       this.cartTotal += prod.price * prod.count;
       this.items += prod.count;
     },
+    updateStraightFromCart(prod) {
+      const item = this.cart.find((item) => {
+        return item.id === prod.id;
+      });
+      const countToBeAdded = prod.count - item.count;
+      const index = this.cart.indexOf(item);
+      this.cart[index].count += countToBeAdded;
+      this.cartTotal += prod.price * countToBeAdded;
+      this.items += countToBeAdded;
+    },
     deleteFromCart(prod) {
       const item = this.cart.find((item) => {
         return item.id === prod.id;
